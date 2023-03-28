@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seqxercise/screen/exercise_screen.dart';
+import 'package:seqxercise/screen/training_session_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,15 +29,11 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static var exerciseScreen = const ExerciseScreen();
+  static var trainingSessionScreen = const TrainingSessionScreen();
   static final List<Widget> _widgetOptions = <Widget>[
+    trainingSessionScreen,
     exerciseScreen,
-    const Text(
-      'Index 1',
-      style: optionStyle,
-    ),
   ];
 
   @override
@@ -51,10 +48,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
+              icon: Icon(Icons.timer), label: 'Training sessions'),
+          BottomNavigationBarItem(
             icon: Icon(Icons.sports_martial_arts),
             label: 'Exercises',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.business), label: 'Business')
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
