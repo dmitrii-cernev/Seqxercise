@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seqxercise/screen/exercise_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,22 +30,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0',
-      style: optionStyle,
-    ),
-    Text(
+  static var exerciseScreen = const ExerciseScreen();
+  static final List<Widget> _widgetOptions = <Widget>[
+    exerciseScreen,
+    const Text(
       'Index 1',
       style: optionStyle,
     ),
   ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +51,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Icon(Icons.sports_martial_arts),
+            label: 'Exercises',
           ),
           BottomNavigationBarItem(icon: Icon(Icons.business), label: 'Business')
         ],
@@ -68,5 +61,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         onTap: _onItemTapped,
       ),
     );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 }
