@@ -26,11 +26,61 @@ ListView getListViewWidget() {
           trailing: const Icon(Icons.arrow_forward_ios),
           onTap: () {
             debugPrint('${getTrainingSessions()[index].name} was tapped');
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TrainingSessionDetailedInfoScreen(
+                  trainingSession: getTrainingSessions()[index],
+                ),
+              ),
+            );
           },
         ),
       );
     },
   );
+}
+
+class TrainingSessionDetailedInfoScreen extends StatelessWidget {
+  final TrainingSession trainingSession;
+
+  const TrainingSessionDetailedInfoScreen(
+      {Key? key, required this.trainingSession})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // show detailed info about training session + a return button
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(trainingSession.name),
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            Text(trainingSession.name),
+            ListView(
+                shrinkWrap: true,
+                children: trainingSession.exercises
+                    .map((exercise) {
+                      return ListTile(
+                        title: Text(exercise.name),
+                        subtitle: Text(exercise.description),
+                        trailing: Text('${exercise.leadTime} sec'),
+                      );
+                    })
+                    .toList()),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Return'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 List<TrainingSession> getTrainingSessions() {
@@ -46,6 +96,7 @@ List<TrainingSession> getTrainingSessions() {
       ExerciseUnit(
           name: 'Dumbel Press', description: 'Dumbel Press', leadTime: 10),
       ExerciseUnit(name: 'Deadlift', description: 'Deadlift', leadTime: 10),
+      ExerciseUnit(name: "Pull ups", description: "Podtegivanya", leadTime: 15),
     ]),
   ];
 }
