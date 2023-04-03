@@ -58,7 +58,13 @@ class TrainingSessionDetailedInfoScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            Text(trainingSession.name, style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+            Text(trainingSession.name,
+                style:
+                    const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+            Text(
+              'Rest time: ${trainingSession.restTime} sec',
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
             ListView(
                 shrinkWrap: true,
                 children: trainingSession.exercises.map((exercise) {
@@ -104,18 +110,25 @@ class TrainingSessionDetailedInfoScreen extends StatelessWidget {
 
 List<TrainingSession> getTrainingSessions() {
   return [
-    TrainingSession(name: 'Session #1', exercises: [
-      ExerciseUnit(name: 'Squat', description: 'Squat', leadTime: 10),
-      ExerciseUnit(
-          name: 'Bench Press', description: 'Bench Press', leadTime: 10),
-      ExerciseUnit(name: 'Deadlift', description: 'Deadlift', leadTime: 10),
-    ]),
-    TrainingSession(name: 'Session #2', exercises: [
-      ExerciseUnit(name: 'Squat', description: 'Squat', leadTime: 10),
-      ExerciseUnit(
-          name: 'Dumbel Press', description: 'Dumbel Press', leadTime: 10),
-      ExerciseUnit(name: 'Deadlift', description: 'Deadlift', leadTime: 10),
-      ExerciseUnit(name: "Pull ups", description: "Podtegivanya", leadTime: 15),
-    ]),
+    TrainingSession(
+        name: 'Session #1',
+        exercises: [
+          ExerciseUnit(name: 'Squat', description: 'Squat', leadTime: 10),
+          ExerciseUnit(
+              name: 'Bench Press', description: 'Bench Press', leadTime: 10),
+          ExerciseUnit(name: 'Deadlift', description: 'Deadlift', leadTime: 10),
+        ],
+        restTime: 10),
+    TrainingSession(
+        name: 'Session #2',
+        exercises: [
+          ExerciseUnit(name: 'Squat', description: 'Squat', leadTime: 10),
+          ExerciseUnit(
+              name: 'Dumbel Press', description: 'Dumbel Press', leadTime: 10),
+          ExerciseUnit(name: 'Deadlift', description: 'Deadlift', leadTime: 10),
+          ExerciseUnit(
+              name: "Pull ups", description: "Podtegivanya", leadTime: 15),
+        ],
+        restTime: 10),
   ];
 }
