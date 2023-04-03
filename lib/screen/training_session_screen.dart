@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../model/exercise_unit.dart';
-import '../model/trainingSession.dart';
+import '../model/training_session.dart';
 
 class TrainingSessionScreen extends StatelessWidget {
   const TrainingSessionScreen({Key? key}) : super(key: key);
@@ -58,24 +58,43 @@ class TrainingSessionDetailedInfoScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            Text(trainingSession.name),
+            Text(trainingSession.name, style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
             ListView(
                 shrinkWrap: true,
-                children: trainingSession.exercises
-                    .map((exercise) {
-                      return ListTile(
-                        title: Text(exercise.name),
-                        subtitle: Text(exercise.description),
-                        trailing: Text('${exercise.leadTime} sec'),
-                      );
-                    })
-                    .toList()),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Return'),
+                children: trainingSession.exercises.map((exercise) {
+                  return ListTile(
+                    title: Text(exercise.name),
+                    subtitle: Text(exercise.description),
+                    trailing: Text('${exercise.leadTime} sec'),
+                  );
+                }).toList()),
+            Text(
+              "Total time: ${trainingSession.totalTime} sec",
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Return'),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                    child: const Text('Start'),
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),

@@ -12,4 +12,7 @@ class TrainingSession {
   TrainingSession.fromJson(Map<String, dynamic> json)
       : name = json['name'],
         exercises = json['exercises'];
+
+  get totalTime => exercises.fold(
+      0, (previousValue, element) => previousValue + element.leadTime);
 }
