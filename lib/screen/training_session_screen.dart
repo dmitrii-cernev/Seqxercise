@@ -122,10 +122,10 @@ List<TrainingSession> getTrainingSessions() {
     TrainingSession(
         name: 'Session #1',
         exercises: [
-          ExerciseUnit(name: 'Squat', description: 'Prisedanya', leadTime: 5),
+          ExerciseUnit(name: 'Squat', description: 'Prisedanya', leadTime: 2),
           ExerciseUnit(
-              name: 'Bench Press', description: 'Bench Press', leadTime: 6),
-          ExerciseUnit(name: 'Deadlift', description: 'Deadlift', leadTime: 7),
+              name: 'Bench Press', description: 'Bench Press', leadTime: 3),
+          ExerciseUnit(name: 'Deadlift', description: 'Deadlift', leadTime: 4),
         ],
         restTime: 10),
     TrainingSession(
@@ -153,20 +153,32 @@ class TrainingSessionInProgress extends StatefulWidget {
 }
 
 class _TrainingSessionInProgressState extends State<TrainingSessionInProgress> {
-  Timer? _leadTimeTimer;
   int _index = 0;
 
   @override
   Widget build(BuildContext context) {
     var exercises = widget.trainingSession.exercises;
-    _leadTimeTimer =
-        Timer.periodic(Duration(seconds: exercises[_index].leadTime), (timer) {
-      if (timer.isActive && _index < exercises.length - 1) {
+    Timer(Duration(seconds: exercises[_index].leadTime), () {
+      if (_index < exercises.length - 1) {
         setState(() {
           _index++;
         });
       } else {
-        timer.cancel();
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('Training session is over'),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Return'))
+                ],
+              );
+            });
       }
     });
     return Scaffold(
@@ -175,7 +187,6 @@ class _TrainingSessionInProgressState extends State<TrainingSessionInProgress> {
         automaticallyImplyLeading: false,
         leading: IconButton(
             onPressed: () {
-              _leadTimeTimer!.cancel();
               Navigator.pop(context);
             },
             icon: const Icon(Icons.close)),
