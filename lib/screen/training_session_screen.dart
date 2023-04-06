@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../model/exercise_unit.dart';
@@ -93,7 +95,14 @@ class TrainingSessionDetailedInfoScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TrainingSessionInProgress(
+                                    trainingSession: trainingSession,
+                                  )));
+                    },
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.green),
                     child: const Text('Start'),
@@ -113,16 +122,16 @@ List<TrainingSession> getTrainingSessions() {
     TrainingSession(
         name: 'Session #1',
         exercises: [
-          ExerciseUnit(name: 'Squat', description: 'Squat', leadTime: 10),
+          ExerciseUnit(name: 'Squat', description: 'Prisedanya', leadTime: 5),
           ExerciseUnit(
-              name: 'Bench Press', description: 'Bench Press', leadTime: 10),
-          ExerciseUnit(name: 'Deadlift', description: 'Deadlift', leadTime: 10),
+              name: 'Bench Press', description: 'Bench Press', leadTime: 6),
+          ExerciseUnit(name: 'Deadlift', description: 'Deadlift', leadTime: 7),
         ],
         restTime: 10),
     TrainingSession(
         name: 'Session #2',
         exercises: [
-          ExerciseUnit(name: 'Squat', description: 'Squat', leadTime: 10),
+          ExerciseUnit(name: 'Squat', description: 'Prisedanya', leadTime: 10),
           ExerciseUnit(
               name: 'Dumbel Press', description: 'Dumbel Press', leadTime: 10),
           ExerciseUnit(name: 'Deadlift', description: 'Deadlift', leadTime: 10),
@@ -131,4 +140,75 @@ List<TrainingSession> getTrainingSessions() {
         ],
         restTime: 10),
   ];
+}
+
+class TrainingSessionInProgress extends StatefulWidget {
+  final TrainingSession trainingSession;
+
+  const TrainingSessionInProgress({super.key, required this.trainingSession});
+
+  @override
+  State<TrainingSessionInProgress> createState() =>
+      _TrainingSessionInProgressState();
+}
+
+class _TrainingSessionInProgressState extends State<TrainingSessionInProgress> {
+  Timer? _leadTimeTimer;
+  int _index = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    var exercises = widget.trainingSession.exercises;
+    _leadTimeTimer =
+        Timer.periodic(Duration(seconds: exercises[_index].leadTime), (timer) {
+      if (timer.isActive && _index < exercises.length - 1) {
+        setState(() {
+          _index++;
+        });
+      } else {
+        timer.cancel();
+      }
+    });
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.trainingSession.name),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            onPressed: () {
+              _leadTimeTimer!.cancel();
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.close)),
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            Text('${_index + 1} / ${exercises.length}'),
+            Text(exercises[_index].name),
+            Text(exercises[_index].description),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('Pause button'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    '${exercises[_index].leadTime} sec',
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Next button')),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }
